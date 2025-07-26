@@ -68,7 +68,6 @@ public class JwtUtils {
 	// this method will be invoked by our custom JWT filter
 	public Claims validateJwtToken(String jwtToken) {
 		Claims claims = Jwts.parser()
-
 				.verifyWith(key)
 				.build()
 				.parseSignedClaims(jwtToken) 

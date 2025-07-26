@@ -34,7 +34,8 @@ public class User implements UserDetails{
 	@Column(unique = true)
 	private String email;
 	
-	private int flatNo;
+	@Column(unique = true)
+	private Integer flatNo;
 	
 	@Column(name="Mobile Number", length=10)
 	private String mobileNo;
