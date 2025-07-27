@@ -82,6 +82,7 @@ public class UserServiceImpl implements UserService{
 		User user = userDao.findById(userId)
 				.orElseThrow(()-> new HomeHiveResourceNotFoundException(UserError.USER_NOT_FOUND.getMsg()));
 		
+		user.setIsActive(false);
 		userDao.save(user);
 	}
 }
