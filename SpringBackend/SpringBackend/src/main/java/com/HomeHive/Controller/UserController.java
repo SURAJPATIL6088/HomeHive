@@ -11,13 +11,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.HomeHive.custom_error.UserError;
 import com.HomeHive.dto.AuthResponse;
-import com.HomeHive.dto.userSignUpDTO;
-import com.HomeHive.dto.userSignInDTO;
+import com.HomeHive.dto.UserSignUpDTO;
+import com.HomeHive.dto.UserSignInDTO;
 import com.HomeHive.security.JwtUtils;
 import com.HomeHive.service.UserService;
 
-import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 
 @RestController
@@ -29,20 +29,20 @@ public class UserController {
 	private final JwtUtils jwtUtils;
 	
 	@PostMapping("/signin")
-	public ResponseEntity<?>userSignIn(@RequestBody userSignInDTO dto){
-		System.out.println("in sign in "+dto);
+	public ResponseEntity<?> userSignIn(@RequestBody UserSignInDTO dto){
+		// System.out.println("in sign in "+dto);
 		
 		UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(dto.getEmail(), dto.getPassword());
 		Authentication successAuth = authenticationManager.authenticate(authToken);
 		
 		return ResponseEntity.status(HttpStatus.CREATED)
-				.body(new AuthResponse("Successful User Login..", jwtUtils.generateJwtToken(successAuth)));
+				.body(new AuthResponse(UserError.SUCCESS_AUTH.getMsg(), jwtUtils.generateJwtToken(successAuth)));
 	}
 	
 	// register new residant
 	@PostMapping("/signup")
-	public ResponseEntity<?>userSignUp(@RequestBody userSignUpDTO dto){
-		System.out.println("in sign up "+dto);
+	public ResponseEntity<?> userSignUp(@RequestBody UserSignUpDTO dto){
+		// System.out.println("in sign up "+dto);
 		return ResponseEntity.status(HttpStatus.CREATED)
 				.body(userService.registerNewResidant(dto));
 	}

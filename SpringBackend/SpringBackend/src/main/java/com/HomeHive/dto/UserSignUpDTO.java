@@ -13,7 +13,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class userSignUpDTO {
+public class UserSignUpDTO {
 	@NotBlank(message = "First name is required")
 	private String firstName;
 	

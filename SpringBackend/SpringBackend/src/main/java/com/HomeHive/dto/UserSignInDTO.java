@@ -8,10 +8,10 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class userSignInDTO {
-	@NotBlank
+public class UserSignInDTO {
+	@NotBlank(message = "Email name is required")
 	private String email;
 	
-	@NotBlank
+	@NotBlank(message = "Password is required")
 	private String password;
 }

@@ -6,6 +6,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.HomeHive.custom_error.UserError;
 import com.HomeHive.dao.UserDao;
 import com.HomeHive.entities.User;
 
@@ -22,7 +23,7 @@ public class CustomUserDetailsServiceImpl implements UserDetailsService {
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 		User user=userDao.findByEmail(email)
 				.orElseThrow(() -> 
-				new UsernameNotFoundException("Invalid email ....."));
+				new UsernameNotFoundException(UserError.EMAIL_INVALID.getMsg()));
 		//=> partial auth - email exists
 		return user;
 	}
