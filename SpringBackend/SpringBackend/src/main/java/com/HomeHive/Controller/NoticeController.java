@@ -18,7 +18,10 @@ import com.HomeHive.custom_error.NoticeError;
 import com.HomeHive.dto.CreateNoticeDTO;
 import com.HomeHive.dto.NoticeResponseDTO;
 import com.HomeHive.entities.Notice;
+import com.HomeHive.entities.User;
 import com.HomeHive.service.NoticeService;
+import com.HomeHive.service.NotificationService;
+import com.HomeHive.service.UserService;
 
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -29,6 +32,8 @@ import lombok.AllArgsConstructor;
 public class NoticeController {
 	
 	private final NoticeService noticeService;
+	private final NotificationService notificationService;
+	private final UserService userService;
 	
 	@GetMapping("/getActive")
 	public ResponseEntity<List<Notice>> getAllActiveNtices(){
@@ -46,14 +51,22 @@ public class NoticeController {
 	@PreAuthorize("hasRole('ADMIN')")
 	@PostMapping("/post-notice")
 	public ResponseEntity<?> createNotice(@RequestBody @Valid CreateNoticeDTO dto){
+		
 		NoticeResponseDTO createdNotice = noticeService.createNotice(dto);
+		List<User>allUsers = userService.getAllUsers();
+		notificationService.sendNotifications(allUsers, dto);
+		
 		return ResponseEntity.status(HttpStatus.CREATED).body(createdNotice);
 	}
 	
 	@PreAuthorize("hasRole('ADMIN')")
 	@PutMapping("/update-notice/{noticeId}")
 	public ResponseEntity<?> updateNotice(@PathVariable Long noticeId, @RequestBody CreateNoticeDTO dto){
+
 		NoticeResponseDTO updatedNotice = noticeService.updateNotice(noticeId, dto);
+		List<User>allUsers = userService.getAllUsers();
+		notificationService.sendNotifications(allUsers, dto);
+		
 		return ResponseEntity.status(HttpStatus.OK).body(updatedNotice);
 	}
 	

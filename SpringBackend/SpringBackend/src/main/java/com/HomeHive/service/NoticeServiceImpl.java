@@ -2,10 +2,8 @@ package com.HomeHive.service;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 import org.modelmapper.ModelMapper;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.HomeHive.custom_error.NoticeError;
@@ -15,7 +13,6 @@ import com.HomeHive.dao.UserDao;
 import com.HomeHive.dto.CreateNoticeDTO;
 import com.HomeHive.dto.NoticeResponseDTO;
 import com.HomeHive.entities.Notice;
-import com.HomeHive.entities.User;
 
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
@@ -61,19 +58,22 @@ public class NoticeServiceImpl implements NoticeService{
 	}
 
 	@Override
-	public Notice updateNotice(Long noticeId, CreateNoticeDTO dto) {
+	public NoticeResponseDTO updateNotice(Long noticeId, CreateNoticeDTO dto) {
 		Notice updateNotice = getNoticeById(noticeId);
 		updateNotice.setTitle(dto.getTitle());
 		updateNotice.setContent(dto.getContent());
 		updateNotice.setValidUntil(dto.getValidUntil());
-		
-		return noticeDao.save(updateNotice);
+		updateNotice.setUpdatedAt(LocalDateTime.now());
+
+	    noticeDao.save(updateNotice);
+	    return modelMapper.map(updateNotice, NoticeResponseDTO.class);
 	}
 
 	@Override
 	public void deleteNotice(Long noticeId) {
 		Notice notice = getNoticeById(noticeId);
 		notice.setIsActive(false);
+		
 		noticeDao.save(notice);
 	}
 }
