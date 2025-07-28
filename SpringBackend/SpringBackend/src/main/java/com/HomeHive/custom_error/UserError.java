@@ -4,9 +4,11 @@ import lombok.Getter;
 
 @Getter
 public enum UserError {
-	EMAIL_DUPLICATE("Duplicate Email Found!!"),
+	EMAIL_DUPLICATE("Duplicate email found!!"),
 	EMAIL_INVALID("Invalid email..."),
-	SUCCESS_AUTH("Successful User Login..");
+	SUCCESS_AUTH("Successful user Login.."),
+	USER_NOT_FOUND("User not found"),
+	ADMIN_ACCESS_ONLY("Admin access required");
 	
 	private final String msg;
 	

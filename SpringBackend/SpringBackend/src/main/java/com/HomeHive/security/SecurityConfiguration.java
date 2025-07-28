@@ -40,10 +40,10 @@ public class SecurityConfiguration {
             .authorizeHttpRequests(request -> request
                 .requestMatchers(
                     "/v*/api-docs/**", 
-                    "/auth/**"
+                    "/users/auth/**",
+                    "/users/profile"
                 ).permitAll()
-                .requestMatchers("/test/admin/**").hasRole("ADMIN")
-                .requestMatchers("/test/resident/**").hasRole("RESIDENT")
+                .requestMatchers("/users/all/**", "/users/*/role", "/users/admin/**").hasRole("ADMIN")
                 .anyRequest().authenticated()
             )
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));

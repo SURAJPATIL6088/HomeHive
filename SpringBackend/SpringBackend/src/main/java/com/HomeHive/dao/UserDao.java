@@ -1,5 +1,6 @@
 package com.HomeHive.dao;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -15,4 +16,6 @@ public interface UserDao extends JpaRepository<User, Long>{
 	
 	// find user by email and pwd
 	Optional<User> findByEmailAndPassword(String email, String password);
+
+	List<User>findByIsActiveTrue();
 }
