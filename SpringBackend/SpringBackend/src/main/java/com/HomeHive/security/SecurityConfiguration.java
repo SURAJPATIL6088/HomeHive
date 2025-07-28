@@ -41,9 +41,11 @@ public class SecurityConfiguration {
                 .requestMatchers(
                     "/v*/api-docs/**", 
                     "/users/auth/**",
-                    "/users/profile"
+                    "/users/profile",
+                    "/notices/getActive"
                 ).permitAll()
                 .requestMatchers("/users/all/**", "/users/*/role", "/users/admin/**").hasRole("ADMIN")
+                .requestMatchers("/notices/post-notice", "/notices/remove/**", "/notices/getAll").hasRole("ADMIN")
                 .anyRequest().authenticated()
             )
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
