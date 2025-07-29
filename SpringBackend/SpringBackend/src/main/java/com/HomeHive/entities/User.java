@@ -49,9 +49,9 @@ public class User extends BaseEntity implements UserDetails
 	@Enumerated(EnumType.STRING)
 	private UserRole role = UserRole.ROLE_RESIDENT;
 	
-	@OneToMany(mappedBy = "createdBy", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	/*@OneToMany(mappedBy = "createdBy", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private List<Notice> notices = new ArrayList<> ();
-
+*/
 	@OneToMany(mappedBy = "createdBy", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private List<Event> events = new ArrayList<> ();
 	
