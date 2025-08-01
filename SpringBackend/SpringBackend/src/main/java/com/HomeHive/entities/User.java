@@ -51,7 +51,12 @@ public class User extends BaseEntity implements UserDetails
 	
 	/*@OneToMany(mappedBy = "createdBy", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private List<Notice> notices = new ArrayList<> ();
-*/
+	*/
+
+	@OneToMany(mappedBy = "resident", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@JsonIgnore
+	private List<Complaint> complaints = new ArrayList<> ();
+	
 	@OneToMany(mappedBy = "createdBy", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private List<Event> events = new ArrayList<> ();
 	

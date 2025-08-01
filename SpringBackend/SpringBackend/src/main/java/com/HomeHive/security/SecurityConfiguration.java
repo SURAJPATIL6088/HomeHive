@@ -46,11 +46,12 @@ public class SecurityConfiguration {
                 ).permitAll()
                 .requestMatchers("/users/all/**", "/users/*/role", "/users/admin/**").hasRole("ADMIN")
                 .requestMatchers("/notices/post-notice", "/notices/remove/**", "/notices/getAll").hasRole("ADMIN")
+                .requestMatchers("/complaints/all-complaints", "/complaints/*/status").hasRole("ADMIN")
+                .requestMatchers("/complaints/raise-complaint", "/complaints/my-complaints").hasRole("RESIDENT")
                 .anyRequest().authenticated()
             )
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
-        //Add JWT filter
         http.addFilterBefore(jwtCustomFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
@@ -60,7 +61,6 @@ public class SecurityConfiguration {
     AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();
     }
-
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
