@@ -1,6 +1,7 @@
 package com.HomeHive.dto;
 
-import com.HomeHive.entities.UserRole;
+
+import com.HomeHive.enums.UserRole;
 
 import jakarta.persistence.Column;
 import jakarta.validation.constraints.Email;

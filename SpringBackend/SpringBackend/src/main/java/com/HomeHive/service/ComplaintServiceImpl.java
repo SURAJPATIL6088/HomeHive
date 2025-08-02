@@ -11,9 +11,9 @@ import com.HomeHive.custom_exceptions.HomeHiveAccessDeniedException;
 import com.HomeHive.custom_exceptions.HomeHiveResourceNotFoundException;
 import com.HomeHive.dao.ComplaintDao;
 import com.HomeHive.entities.Complaint;
-import com.HomeHive.entities.ComplaintStatus;
 import com.HomeHive.entities.User;
-import com.HomeHive.entities.UserRole;
+import com.HomeHive.enums.ComplaintStatus;
+import com.HomeHive.enums.UserRole;
 
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;

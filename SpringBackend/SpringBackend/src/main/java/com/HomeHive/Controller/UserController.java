@@ -16,17 +16,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.service.annotation.PutExchange;
 
 import com.HomeHive.custom_error.UserError;
-import com.HomeHive.dao.UserDao;
 import com.HomeHive.dto.AuthResponse;
 import com.HomeHive.dto.RoleUpdateRequestDTO;
 import com.HomeHive.dto.UserSignUpDTO;
 import com.HomeHive.entities.User;
-import com.HomeHive.entities.UserRole;
 import com.HomeHive.dto.UserSignInDTO;
 import com.HomeHive.security.JwtUtils;
 import com.HomeHive.service.UserService;

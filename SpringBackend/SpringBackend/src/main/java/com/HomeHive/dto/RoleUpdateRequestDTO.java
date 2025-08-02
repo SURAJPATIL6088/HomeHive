@@ -1,9 +1,6 @@
 package com.HomeHive.dto;
 
-import com.HomeHive.entities.UserRole;
-
-import lombok.Getter;
-import lombok.Setter;
+import com.HomeHive.enums.UserRole;
 
 public class RoleUpdateRequestDTO {
 	private UserRole role;
