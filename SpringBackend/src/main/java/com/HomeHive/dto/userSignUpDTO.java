@@ -1,6 +1,7 @@
 package com.HomeHive.dto;
 
-import com.HomeHive.entities.UserRole;
+
+import com.HomeHive.enums.UserRole;
 
 import jakarta.persistence.Column;
 import jakarta.validation.constraints.Email;
@@ -13,7 +14,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class userSignUpDTO {
+public class UserSignUpDTO {
 	@NotBlank(message = "First name is required")
 	private String firstName;
 	

@@ -22,10 +22,9 @@ import io.jsonwebtoken.security.Keys;
 import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 
-@Component //to declare spring bean
+@Component
 @Slf4j
 public class JwtUtils {
-//inject the props in JWT Utils class for creating n validation of JWT
 	/*
 	 * @Value => injection of a value (<constr-arg name n value : xml tags) arg - Spring
 	 * expression Lang - SpEL
@@ -41,11 +40,10 @@ public class JwtUtils {
 	@PostConstruct
 	public void init() {
 		log.info("Key {} Exp Time {}",jwtSecret,jwtExpirationMs);
-		//create secret key instance form its builder - Keys
+		
 		key = Keys.hmacShaKeyFor(jwtSecret.getBytes());
 	}
 
-	// authentication
 	public String generateJwtToken(Authentication authentication) {
 		log.info("generate jwt token " + authentication);
 		User userPrincipal = (User) authentication.getPrincipal();
@@ -60,12 +58,10 @@ public class JwtUtils {
 				.compact();
 	}
 
-	// this method will be invoked by our custom JWT filter
 	public String getUserNameFromJwtToken(Claims claims) {
 		return claims.getSubject();
 	}
 
-	// this method will be invoked by our custom JWT filter
 	public Claims validateJwtToken(String jwtToken) {
 		Claims claims = Jwts.parser()
 

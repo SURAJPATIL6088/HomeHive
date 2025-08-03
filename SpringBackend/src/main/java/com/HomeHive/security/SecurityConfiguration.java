@@ -40,16 +40,26 @@ public class SecurityConfiguration {
             .authorizeHttpRequests(request -> request
                 .requestMatchers(
                     "/v*/api-docs/**", 
+<<<<<<< HEAD:SpringBackend/src/main/java/com/HomeHive/security/SecurityConfiguration.java
                     "/auth/signup", 
                     "/auth/signin"
                 ).permitAll()
                 .requestMatchers("/admin/**").hasRole("ADMIN")
                 .requestMatchers("/acc/**").hasRole("ACCOUNTANT")
+=======
+                    "/users/auth/**",
+                    "/users/profile",
+                    "/notices/getActive"
+                ).permitAll()
+                .requestMatchers("/users/all/**", "/users/*/role", "/users/admin/**").hasRole("ADMIN")
+                .requestMatchers("/notices/post-notice", "/notices/remove/**", "/notices/getAll").hasRole("ADMIN")
+                .requestMatchers("/complaints/all-complaints", "/complaints/*/status").hasRole("ADMIN")
+                .requestMatchers("/complaints/raise-complaint", "/complaints/my-complaints").hasRole("RESIDENT")
+>>>>>>> ef46388662d9cda486d97bbeb5ca17527fa1fb88:SpringBackend/SpringBackend/src/main/java/com/HomeHive/security/SecurityConfiguration.java
                 .anyRequest().authenticated()
             )
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
-        //Add JWT filter
         http.addFilterBefore(jwtCustomFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
@@ -59,7 +69,6 @@ public class SecurityConfiguration {
     AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();
     }
-
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
