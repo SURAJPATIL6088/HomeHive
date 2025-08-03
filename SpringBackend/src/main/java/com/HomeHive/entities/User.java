@@ -53,7 +53,8 @@ public class User extends BaseEntity implements UserDetails
 	private List<Notice> notices = new ArrayList<> ();
 	*/
 	
-    @OneToMany(mappedBy = "resident", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@JsonIgnore
+    @OneToMany(mappedBy = "resident", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Booking> bookings = new ArrayList<>();
     
 	@JsonIgnore
