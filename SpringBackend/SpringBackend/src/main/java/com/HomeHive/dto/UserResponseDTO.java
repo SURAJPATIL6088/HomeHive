@@ -1,6 +1,6 @@
 package com.HomeHive.dto;
 
-import com.HomeHive.entities.UserRole;
+import com.HomeHive.enums.UserRole;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 

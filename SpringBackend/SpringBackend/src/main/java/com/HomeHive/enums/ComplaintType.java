@@ -1,4 +1,4 @@
-package com.HomeHive.entities;
+package com.HomeHive.enums;
 
 public enum ComplaintType {
     PLUMBING,

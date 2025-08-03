@@ -1,5 +1,8 @@
 package com.HomeHive.entities;
 
+import com.HomeHive.enums.ComplaintStatus;
+import com.HomeHive.enums.ComplaintType;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;

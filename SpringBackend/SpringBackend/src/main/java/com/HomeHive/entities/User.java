@@ -8,6 +8,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.HomeHive.enums.UserRole;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.CascadeType;
@@ -52,13 +53,20 @@ public class User extends BaseEntity implements UserDetails
 	/*@OneToMany(mappedBy = "createdBy", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private List<Notice> notices = new ArrayList<> ();
 	*/
-
-	@OneToMany(mappedBy = "resident", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	
+    @OneToMany(mappedBy = "resident", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<Booking> bookings = new ArrayList<>();
+    
 	@JsonIgnore
+	@OneToMany(mappedBy = "resident", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private List<Complaint> complaints = new ArrayList<> ();
 	
 	@OneToMany(mappedBy = "createdBy", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private List<Event> events = new ArrayList<> ();
+	
+	@JsonIgnore
+	@OneToMany(mappedBy = "resident", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	private List<Feedback> feedbacks;
 	
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {

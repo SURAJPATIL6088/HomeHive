@@ -3,7 +3,7 @@ package com.HomeHive.service;
 import java.util.List;
 
 import com.HomeHive.entities.Complaint;
-import com.HomeHive.entities.ComplaintStatus;
+import com.HomeHive.enums.ComplaintStatus;
 
 public interface ComplaintService {
 	Complaint raiseComplaint(Complaint complaint);

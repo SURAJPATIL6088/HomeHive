@@ -17,7 +17,7 @@ import com.HomeHive.dto.UserResponseDTO;
 import com.HomeHive.dto.UserSignInDTO;
 import com.HomeHive.dto.UserSignUpDTO;
 import com.HomeHive.entities.User;
-import com.HomeHive.entities.UserRole;
+import com.HomeHive.enums.UserRole;
 
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;

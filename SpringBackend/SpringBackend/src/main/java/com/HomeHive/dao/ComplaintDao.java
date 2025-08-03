@@ -8,9 +8,9 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.HomeHive.entities.Complaint;
-import com.HomeHive.entities.ComplaintStatus;
-import com.HomeHive.entities.ComplaintType;
 import com.HomeHive.entities.User;
+import com.HomeHive.enums.ComplaintStatus;
+import com.HomeHive.enums.ComplaintType;
 
 @Repository
 public interface ComplaintDao extends JpaRepository<Complaint, Long>{
