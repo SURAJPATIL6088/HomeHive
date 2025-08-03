@@ -26,6 +26,7 @@ public class userSignUpDTO {
 	@Pattern(regexp = "((?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[#@$*]).{5,20})", message = "invalid password format!!!!") 
 	private String password;
 	
+	@NotBlank(message = "Flat number is required")
 	private int flatNo;
 	
 	@NotBlank(message = "Mobile number is required")

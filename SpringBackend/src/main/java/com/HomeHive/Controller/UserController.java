@@ -28,8 +28,8 @@ public class UserController {
 	private final UserService userService;
 	private final JwtUtils jwtUtils;
 	
-	@PostMapping("/signin")
-	public ResponseEntity<?>userSignIn(@RequestBody userSignInDTO dto){
+	@PostMapping("/sign-in")
+	public ResponseEntity<?>userSignIn(@RequestBody @Valid userSignInDTO dto){
 		System.out.println("in sign in "+dto);
 		
 		UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(dto.getEmail(), dto.getPassword());
@@ -40,8 +40,8 @@ public class UserController {
 	}
 	
 	// register new residant
-	@PostMapping("/signup")
-	public ResponseEntity<?>userSignUp(@RequestBody userSignUpDTO dto){
+	@PostMapping("/sign-up")
+	public ResponseEntity<?>userSignUp(@RequestBody @Valid userSignUpDTO dto){
 		System.out.println("in sign up "+dto);
 		return ResponseEntity.status(HttpStatus.CREATED)
 				.body(userService.registerNewResidant(dto));
