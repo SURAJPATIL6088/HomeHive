@@ -42,12 +42,18 @@ public class SecurityConfiguration {
                     "/v*/api-docs/**", 
                     "/users/auth/**",
                     "/users/profile",
-                    "/notices/getActive"
+                    "/notices/getActive",
+                    "/facilities/all-facilities"
                 ).permitAll()
                 .requestMatchers("/users/all/**", "/users/*/role", "/users/admin/**").hasRole("ADMIN")
                 .requestMatchers("/notices/post-notice", "/notices/remove/**", "/notices/getAll").hasRole("ADMIN")
                 .requestMatchers("/complaints/all-complaints", "/complaints/*/status").hasRole("ADMIN")
                 .requestMatchers("/complaints/raise-complaint", "/complaints/my-complaints").hasRole("RESIDENT")
+                .requestMatchers("/feedback/all-feedback", "/feedback/by-category/**").hasRole("ADMIN")
+                .requestMatchers("/feedback/my-feedback", "/feedback/post-feedback").hasRole("RESIDENT")
+                .requestMatchers("/bookings/all", "/bookings/*/status", "/bookings/pending").hasRole("ADMIN")
+                .requestMatchers("/bookings/add-booking", "/bookings/my-bookings").hasRole("RESIDENT")
+                .requestMatchers("/facilities/add-facilities", "/facilities/**").hasRole("ADMIN")
                 .anyRequest().authenticated()
             )
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
