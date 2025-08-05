@@ -64,7 +64,12 @@ public class SecurityConfiguration {
                 .requestMatchers("/bookings/all", "/bookings/*/status", "/bookings/pending").hasRole("ADMIN")
                 .requestMatchers("/bookings/add-booking", "/bookings/my-bookings").hasRole("RESIDENT")
                 .requestMatchers("/facilities/add-facilities", "/facilities/**").hasRole("ADMIN")
+<<<<<<< HEAD:SpringBackend/SpringBackend/src/main/java/com/HomeHive/security/SecurityConfiguration.java
+                .requestMatchers("/bills/generate", "/bills/all-bills", "/bills/overdue", "/bills/apply-penalties").hasAnyRole("ADMIN", "ACCOUNTANT")
+                .requestMatchers("/bills/my-bills", "/bills/**").hasRole("RESIDENT")
+=======
 >>>>>>> suraj:SpringBackend/SpringBackend/src/main/java/com/HomeHive/security/SecurityConfiguration.java
+>>>>>>> 7c9a37b0626c14ebe2fed8e5b524af01432ebce2:SpringBackend/src/main/java/com/HomeHive/security/SecurityConfiguration.java
                 .anyRequest().authenticated()
             )
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
