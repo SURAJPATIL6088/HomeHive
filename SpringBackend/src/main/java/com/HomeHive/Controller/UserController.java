@@ -37,15 +37,9 @@ public class UserController {
 	private final UserService userService;
 	private final JwtUtils jwtUtils;
 	
-<<<<<<< HEAD:SpringBackend/src/main/java/com/HomeHive/Controller/UserController.java
-	@PostMapping("/sign-in")
-	public ResponseEntity<?>userSignIn(@RequestBody @Valid userSignInDTO dto){
-		System.out.println("in sign in "+dto);
-=======
 	@PostMapping("/auth/signin")
 	public ResponseEntity<?> userSignIn(@RequestBody UserSignInDTO dto){
 		// System.out.println("in sign in "+dto);
->>>>>>> ef46388662d9cda486d97bbeb5ca17527fa1fb88:SpringBackend/SpringBackend/src/main/java/com/HomeHive/Controller/UserController.java
 		
 		UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(dto.getEmail(), dto.getPassword());
 		Authentication successAuth = authenticationManager.authenticate(authToken);
@@ -55,15 +49,9 @@ public class UserController {
 	}
 	
 	// register new residant
-<<<<<<< HEAD:SpringBackend/src/main/java/com/HomeHive/Controller/UserController.java
-	@PostMapping("/sign-up")
-	public ResponseEntity<?>userSignUp(@RequestBody @Valid userSignUpDTO dto){
-		System.out.println("in sign up "+dto);
-=======
 	@PostMapping("/auth/signup")
 	public ResponseEntity<?> userSignUp(@RequestBody UserSignUpDTO dto){
 		// System.out.println("in sign up "+dto);
->>>>>>> ef46388662d9cda486d97bbeb5ca17527fa1fb88:SpringBackend/SpringBackend/src/main/java/com/HomeHive/Controller/UserController.java
 		return ResponseEntity.status(HttpStatus.CREATED)
 				.body(userService.registerNewResidant(dto));
 	}

@@ -64,7 +64,6 @@ public class JwtUtils {
 
 	public Claims validateJwtToken(String jwtToken) {
 		Claims claims = Jwts.parser()
-
 				.verifyWith(key)
 				.build()
 				.parseSignedClaims(jwtToken) 
