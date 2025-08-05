@@ -38,8 +38,7 @@ public class User extends BaseEntity implements UserDetails
 	@Column(unique = true)
 	private String email;
 	
-	@Column(unique = true)
-	private Integer flatNo;
+	private int flatNo;
 	
 	@Column(name="Mobile Number", length=10)
 	private String mobileNo;

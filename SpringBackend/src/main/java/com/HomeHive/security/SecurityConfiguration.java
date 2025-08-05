@@ -40,6 +40,13 @@ public class SecurityConfiguration {
             .authorizeHttpRequests(request -> request
                 .requestMatchers(
                     "/v*/api-docs/**", 
+<<<<<<< HEAD:SpringBackend/src/main/java/com/HomeHive/security/SecurityConfiguration.java
+                    "/auth/signup", 
+                    "/auth/signin"
+                ).permitAll()
+                .requestMatchers("/admin/**").hasRole("ADMIN")
+                .requestMatchers("/acc/**").hasRole("ACCOUNTANT")
+=======
                     "/users/auth/**",
                     "/users/profile",
                     "/notices/getActive",
@@ -49,13 +56,20 @@ public class SecurityConfiguration {
                 .requestMatchers("/notices/post-notice", "/notices/remove/**", "/notices/getAll").hasRole("ADMIN")
                 .requestMatchers("/complaints/all-complaints", "/complaints/*/status").hasRole("ADMIN")
                 .requestMatchers("/complaints/raise-complaint", "/complaints/my-complaints").hasRole("RESIDENT")
+<<<<<<< HEAD:SpringBackend/src/main/java/com/HomeHive/security/SecurityConfiguration.java
+>>>>>>> ef46388662d9cda486d97bbeb5ca17527fa1fb88:SpringBackend/SpringBackend/src/main/java/com/HomeHive/security/SecurityConfiguration.java
+=======
                 .requestMatchers("/feedback/all-feedback", "/feedback/by-category/**").hasRole("ADMIN")
                 .requestMatchers("/feedback/my-feedback", "/feedback/post-feedback").hasRole("RESIDENT")
                 .requestMatchers("/bookings/all", "/bookings/*/status", "/bookings/pending").hasRole("ADMIN")
                 .requestMatchers("/bookings/add-booking", "/bookings/my-bookings").hasRole("RESIDENT")
                 .requestMatchers("/facilities/add-facilities", "/facilities/**").hasRole("ADMIN")
+<<<<<<< HEAD:SpringBackend/SpringBackend/src/main/java/com/HomeHive/security/SecurityConfiguration.java
                 .requestMatchers("/bills/generate", "/bills/all-bills", "/bills/overdue", "/bills/apply-penalties").hasAnyRole("ADMIN", "ACCOUNTANT")
                 .requestMatchers("/bills/my-bills", "/bills/**").hasRole("RESIDENT")
+=======
+>>>>>>> suraj:SpringBackend/SpringBackend/src/main/java/com/HomeHive/security/SecurityConfiguration.java
+>>>>>>> 7c9a37b0626c14ebe2fed8e5b524af01432ebce2:SpringBackend/src/main/java/com/HomeHive/security/SecurityConfiguration.java
                 .anyRequest().authenticated()
             )
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
