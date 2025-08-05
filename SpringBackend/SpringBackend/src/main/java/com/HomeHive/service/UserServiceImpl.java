@@ -1,6 +1,7 @@
 package com.HomeHive.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.security.core.Authentication;
@@ -61,6 +62,15 @@ public class UserServiceImpl implements UserService{
 	}
 	
 	@Override
+	public void checkAccountantAndAdminAccess() {
+		User currentUser = getCurrentUser();
+		if(!currentUser.getRole().equals(UserRole.ROLE_ACCOUNTANT) &&
+			    !currentUser.getRole().equals(UserRole.ROLE_ADMIN)) {
+			throw new HomeHiveAccessDeniedException(UserError.ADMIN_ACCESS_ONLY.getMsg());
+		}
+	}
+	
+	@Override
 	public List<User> getAllUsers(){
 		checkAdminAccess();
 		return userDao.findByIsActiveTrue();
@@ -84,5 +94,10 @@ public class UserServiceImpl implements UserService{
 		
 		user.setIsActive(false);
 		userDao.save(user);
+	}
+
+	@Override
+	public Optional<User> findById(Long id) {
+	    return userDao.findById(id);
 	}
 }

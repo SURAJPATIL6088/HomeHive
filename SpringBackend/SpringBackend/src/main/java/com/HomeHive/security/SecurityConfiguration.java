@@ -54,6 +54,8 @@ public class SecurityConfiguration {
                 .requestMatchers("/bookings/all", "/bookings/*/status", "/bookings/pending").hasRole("ADMIN")
                 .requestMatchers("/bookings/add-booking", "/bookings/my-bookings").hasRole("RESIDENT")
                 .requestMatchers("/facilities/add-facilities", "/facilities/**").hasRole("ADMIN")
+                .requestMatchers("/bills/generate", "/bills/all-bills", "/bills/overdue", "/bills/apply-penalties").hasAnyRole("ADMIN", "ACCOUNTANT")
+                .requestMatchers("/bills/my-bills", "/bills/**").hasRole("RESIDENT")
                 .anyRequest().authenticated()
             )
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
