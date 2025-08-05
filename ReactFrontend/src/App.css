@@ -1,8 +1,12 @@
+.App {
+  min-height: 100vh;
+  width: 100vw;
+  overflow-x: hidden;
+}
+
 #root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+  padding: 0;
+  text-align: left;
 }
 
 .logo {
@@ -39,4 +43,12 @@
 
 .read-the-docs {
   color: #888;
+}
+.sidebar-header {
+  padding: 2rem 1rem 1rem 1rem;
+  text-align: left;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #fff;
+  letter-spacing: 1px;
 }

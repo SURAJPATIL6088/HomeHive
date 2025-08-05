@@ -1,6 +1,6 @@
 import { useState } from 'react'
-import PasswordStrengthIndicator from './PasswordStrengthIndicator'
-import './SignupForm.css'
+import PasswordStrengthIndicator from '../Authentication/PasswordStrengthIndicator';
+import '../Authentication/SignupForm.css'
 
 const SignupForm = ({ onSwitchToLogin, onSignupSuccess }) => {
   const [formData, setFormData] = useState({
