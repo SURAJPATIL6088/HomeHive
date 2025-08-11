@@ -1,0 +1,88 @@
+.nav-link-custom {
+    transition: all 0.3s ease !important;
+    border-radius: 8px !important;
+    color: rgba(255, 255, 255, 0.7) !important;
+}
+.nav-link-custom:hover {
+    background-color: rgba(255, 255, 255, 0.1) !important;
+    transform: translateY(-1px);
+    color: white !important;
+}
+.nav-link-custom.active {
+    background-color: white !important;
+    color: #333 !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+}
+.nav-link-custom.active:hover {
+    background-color: #f8f9fa !important;
+    color: #333 !important;
+}
+
+.navbar-nav .nav-link.active,
+.navbar-nav .nav-link-custom.active,
+a.nav-link.active,
+a.nav-link-custom.active {
+    background-color: white !important;
+    color: #333 !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+}
+
+.navbar-nav .nav-link.active:hover,
+.navbar-nav .nav-link-custom.active:hover,
+a.nav-link.active:hover,
+a.nav-link-custom.active:hover {
+    background-color: #f8f9fa !important;
+    color: #333 !important;
+}
+
+.navbar-nav .nav-link:not(.active):hover,
+.navbar-nav .nav-link-custom:not(.active):hover,
+a.nav-link:not(.active):hover,
+a.nav-link-custom:not(.active):hover {
+    color: white !important;
+    background-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+.navbar-nav .nav-link,
+a.nav-link {
+    color: rgba(255, 255, 255, 0.7) !important;
+}
+
+.navbar-nav a[aria-current="page"],
+.navbar-nav a.active {
+    background-color: white !important;
+    color: #333 !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+}
+.navbar-toggler {
+    border-color: rgba(255, 255, 255, 0.3) !important;
+}
+.navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 1%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e") !important;
+}
+
+.carousel-item {
+    transition: transform 1.2s ease-in-out !important;
+}
+
+.carousel-fade .carousel-item {
+    opacity: 0;
+    transition: opacity 1.2s ease-in-out;
+}
+.carousel-fade .carousel-item.active {
+    opacity: 1;
+}
+
+.carousel-indicators [data-bs-target] {
+    background-color: rgba(255, 255, 255, 0.5);
+    border: none;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    margin: 0 4px;
+    transition: all 0.3s ease;
+}
+.carousel-indicators .active {
+    background-color: white;
+    transform: scale(1.2);
+}

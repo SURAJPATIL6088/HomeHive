@@ -10,15 +10,14 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-free": "^7.0.0",
     "axios": "^1.11.0",
+    "bootstrap": "^5.3.7",
+    "bootstrap-icons": "^1.13.1",
+    "jwt-decode": "^4.0.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
-<<<<<<< HEAD
-    "react-router-dom": "^7.7.1"
-=======
-    "react-router-dom": "^6.30.1",
-    "tailwindcss": "^4.1.11"
->>>>>>> 8af3bda7d00ef7467cf996f515e425a5ab7c5440
+    "react-router-dom": "^6.30.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.25.0",

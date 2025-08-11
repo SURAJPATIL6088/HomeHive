@@ -7,7 +7,7 @@ function Sidebar({ currentPage, setCurrentPage }) {
     { id: 'users', label: 'User Management', icon: 'fas fa-users', active: currentPage === 'users' },
     { id: 'complaints', label: 'All Complaints', icon: 'fas fa-exclamation-circle', active: currentPage === 'complaints' },
     { id: 'facilities', label: 'Facilities', icon: 'fas fa-building', active: currentPage === 'facilities' },
-    { id: 'settings', label: 'Settings', icon: 'fas fa-cog', active: currentPage === 'settings' }
+    { id: 'profile', label: 'Profile', icon: 'fas fa-cog', active: currentPage === 'profile' }
   ];
 
   const handleNavigation = (pageId) => {

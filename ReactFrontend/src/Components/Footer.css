@@ -1,0 +1,29 @@
+.footer-link {
+  color: #FFFFFF !important;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.footer-link:hover {
+  color: #3B82F6 !important;
+  text-decoration: none;
+}
+
+.social-icon {
+  width: 40px;
+  height: 40px;
+  background-color: #374151;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #FFFFFF;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.social-icon:hover {
+  background-color: #3B82F6;
+  color: white !important;
+  transform: translateY(-2px);
+}

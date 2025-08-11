@@ -1,0 +1,142 @@
+.nav-link-custom {
+  transition: all 0.3s ease !important;
+  border-radius: 8px !important;
+  color: rgba(255, 255, 255, 0.7) !important;
+}
+
+.nav-link-custom:hover {
+  background-color: rgba(255, 255, 255, 0.1) !important;
+  transform: translateY(-1px);
+  color: white !important;
+}
+
+.nav-link-custom.active {
+  background-color: white !important;
+  color: #333 !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+}
+
+.nav-link-custom.active:hover {
+  background-color: #f8f9fa !important;
+  color: #333 !important;
+}
+
+.navbar-nav .nav-link.active,
+.navbar-nav .nav-link-custom.active {
+  background-color: white !important;
+  color: #333 !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+}
+
+.navbar-nav .nav-link:not(.active):hover,
+.navbar-nav .nav-link-custom:not(.active):hover {
+  color: white !important;
+  background-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+.navbar-nav .nav-link {
+  color: rgba(255, 255, 255, 0.7) !important;
+}
+
+.navbar-toggler {
+  border-color: rgba(255, 255, 255, 0.3) !important;
+}
+
+.navbar-toggler-icon {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 1%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e") !important;
+}
+.page-header {
+  background-image: url('/back3.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  min-height: 50vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  text-align: center;
+  position: relative;
+}
+.page-header::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1;
+}
+.page-header .container {
+  position: relative;
+  z-index: 2;
+}
+.member-avatar {
+  width: 150px;
+  height: 150px;
+  background: #3b82f6;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin: 0 auto 20px;
+  overflow: hidden;
+}
+.member-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+.social-links {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 15px;
+}
+.email-link {
+  color: #666;
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: color 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.email-link:hover {
+  color: #3b82f6;
+}
+.email-link i {
+  font-size: 14px;
+}
+.github-link {
+  color: #666;
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: color 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.github-link:hover {
+  color: #333;
+}
+.github-link i {
+  font-size: 14px;
+}
+.team-card {
+  transition: all 0.3s ease;
+  border: 1px solid #e9ecef;
+  background-color: #f8f9fa;
+}
+.team-card:hover {
+  border-color: #3b82f6;
+  background-color: white;
+  transform: translateY(-5px);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
