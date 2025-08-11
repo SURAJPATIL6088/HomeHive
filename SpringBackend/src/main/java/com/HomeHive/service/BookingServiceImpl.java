@@ -81,18 +81,8 @@ public class BookingServiceImpl implements BookingService{
         
         Booking savedBooking = bookingDao.save(booking);
         
-        SimpleMailMessage message = new SimpleMailMessage();
-        String body = bookingEmailNotification.buildBookingEmail(currentUser, facility, bookingDate, startTime, endTime, totalAmount, purpose);
-        String subject = "New Facility Booking Request";
-        
-        // System.out.println("mobile : "+currentUser.getMobileNo());
-        ///System.out.println("email : "+currentUser.getEmail());
-        //System.out.println("username : "+currentUser.getUsername());
-        message.setFrom(currentUser.getEmail());
-        message.setTo("suraj97394878@gmail.com");
-        message.setSubject(subject);      
-        message.setText(body);      
-        javaMailSender.send(message);
+        // Notify admin of new booking request
+        notifyAdminOfNewBooking(savedBooking);
         
         return savedBooking;
 	}
@@ -170,5 +160,187 @@ public class BookingServiceImpl implements BookingService{
 	        throw new HomeHiveAccessDeniedException(BookingError.ADMIN_ACCESS.getMsg());
 	    }
 	    return bookingDao.findByStatus(status);
+	}
+	
+	// New workflow methods implementation
+	@Override
+	public List<Booking> getAllBookingsForAdmin() {
+		userService.checkAdminAccess();
+		return bookingDao.findAllOrderByCreatedOnDesc();
+	}
+	
+	@Override
+	public List<Booking> getPendingBookingsForAdmin() {
+		userService.checkAdminAccess();
+		return bookingDao.findByStatusOrderByCreatedOnDesc(BookingStatus.PENDING);
+	}
+	
+	@Override
+	public List<Booking> getAcceptedBookingsForResident() {
+		User currentUser = userService.getCurrentUser();
+		if (currentUser.getRole() != UserRole.ROLE_RESIDENT) {
+			throw new HomeHiveAccessDeniedException(BookingError.RESIDENT_ACCESS.getMsg());
+		}
+		return bookingDao.findByResidentAndStatus(currentUser, BookingStatus.ACCEPTED);
+	}
+	
+	@Override
+	public List<Booking> getBookingsWithPaymentsForAccountant() {
+		User currentUser = userService.getCurrentUser();
+		if (!currentUser.getRole().equals(UserRole.ROLE_ACCOUNTANT)) {
+			throw new HomeHiveAccessDeniedException("Only accountants can view payment transactions");
+		}
+		return bookingDao.findBookingsWithPayments();
+	}
+	
+	@Override
+	public Booking acceptBookingRequest(Long bookingId, String adminComments) {
+		userService.checkAdminAccess();
+		
+		Booking booking = bookingDao.findById(bookingId)
+			.orElseThrow(() -> new HomeHiveResourceNotFoundException(BookingError.NOT_FOUND.getMsg()));
+		
+		if (booking.getStatus() != BookingStatus.PENDING) {
+			throw new HomeHiveApiException("Only pending bookings can be accepted");
+		}
+		
+		booking.setStatus(BookingStatus.ACCEPTED);
+		Booking updatedBooking = bookingDao.save(booking);
+		
+		// Send email notification to resident
+		notifyResidentOfStatusUpdate(updatedBooking, adminComments);
+		
+		return updatedBooking;
+	}
+	
+	@Override
+	public Booking rejectBookingRequest(Long bookingId, String rejectionReason) {
+		userService.checkAdminAccess();
+		
+		Booking booking = bookingDao.findById(bookingId)
+			.orElseThrow(() -> new HomeHiveResourceNotFoundException(BookingError.NOT_FOUND.getMsg()));
+		
+		if (booking.getStatus() != BookingStatus.PENDING) {
+			throw new HomeHiveApiException("Only pending bookings can be rejected");
+		}
+		
+		booking.setStatus(BookingStatus.REJECTED);
+		booking.setCancellationReason(rejectionReason);
+		Booking updatedBooking = bookingDao.save(booking);
+		
+		// Send email notification to resident
+		notifyResidentOfStatusUpdate(updatedBooking, rejectionReason);
+		
+		return updatedBooking;
+	}
+	
+	@Override
+	public void notifyAdminOfNewBooking(Booking booking) {
+		try {
+			SimpleMailMessage message = new SimpleMailMessage();
+			
+			String subject = "New Facility Booking Request - " + booking.getBookingNumber();
+			String body = String.format(
+				"Dear Admin,\n\n" +
+				"A new facility booking request has been submitted:\n\n" +
+				"Booking Details:\n" +
+				"- Booking Number: %s\n" +
+				"- Resident: %s (%s)\n" +
+				"- Facility: %s\n" +
+				"- Date: %s\n" +
+				"- Time: %s - %s\n" +
+				"- Purpose: %s\n" +
+				"- Total Amount: ₹%s\n\n" +
+				"Please review and update the booking status in the admin dashboard.\n\n" +
+				"Best regards,\n" +
+				"HomeHive Management System",
+				booking.getBookingNumber(),
+				booking.getResident().getFirstName() + " " + booking.getResident().getLastName(),
+				booking.getResident().getEmail(),
+				booking.getFacility().getName(),
+				booking.getBookingDate(),
+				booking.getStartTime(),
+				booking.getEndTime(),
+				booking.getPurpose(),
+				booking.getTotalAmount()
+			);
+			
+			message.setFrom("noreply@homehive.com");
+			message.setTo("admin@homehive.com"); // This should be configurable
+			message.setSubject(subject);
+			message.setText(body);
+			
+			javaMailSender.send(message);
+		} catch (Exception e) {
+			// Log error but don't fail the booking process
+			System.err.println("Failed to send admin notification email: " + e.getMessage());
+		}
+	}
+	
+	@Override
+	public void notifyResidentOfStatusUpdate(Booking booking, String adminComments) {
+		try {
+			SimpleMailMessage message = new SimpleMailMessage();
+			
+			String statusText = booking.getStatus() == BookingStatus.ACCEPTED ? "ACCEPTED" : "REJECTED";
+			String subject = "Facility Booking " + statusText +" - " + booking.getBookingNumber();
+			
+			String body;
+			if (booking.getStatus() == BookingStatus.ACCEPTED) {
+				body = String.format(
+					"Dear %s,\n\n" +
+					"Great news! Your facility booking request has been ACCEPTED.\n\n" +
+					"Booking Details:\n" +
+					"- Booking Number: %s\n" +
+					"- Facility: %s\n" +
+					"- Date: %s\n" +
+					"- Time: %s - %s\n" +
+					"- Total Amount: ₹%s\n\n" +
+					"Next Steps: You can now proceed to make the payment through the resident portal.\n\n" +
+					"%s\n\n" +
+					"Best regards,\n" +
+					"HomeHive Management",
+					booking.getResident().getFirstName(),
+					booking.getBookingNumber(),
+					booking.getFacility().getName(),
+					booking.getBookingDate(),
+					booking.getStartTime(),
+					booking.getEndTime(),
+					booking.getTotalAmount(),
+					adminComments != null ? "Admin Comments: " + adminComments : ""
+				);
+			} else {
+				body = String.format(
+					"Dear %s,\n\n" +
+					"We regret to inform you that your facility booking request has been REJECTED.\n\n" +
+					"Booking Details:\n" +
+					"- Booking Number: %s\n" +
+					"- Facility: %s\n" +
+					"- Date: %s\n" +
+					"- Time: %s - %s\n\n" +
+					"Reason: %s\n\n" +
+					"You can submit a new booking request if needed.\n\n" +
+					"Best regards,\n" +
+					"HomeHive Management",
+					booking.getResident().getFirstName(),
+					booking.getBookingNumber(),
+					booking.getFacility().getName(),
+					booking.getBookingDate(),
+					booking.getStartTime(),
+					booking.getEndTime(),
+					adminComments != null ? adminComments : "No specific reason provided"
+				);
+			}
+			
+			message.setFrom("noreply@homehive.com");
+			message.setTo(booking.getResident().getEmail());
+			message.setSubject(subject);
+			message.setText(body);
+			
+			javaMailSender.send(message);
+		} catch (Exception e) {
+			// Log error but don't fail the process
+			System.err.println("Failed to send resident notification email: " + e.getMessage());
+		}
 	}
 }

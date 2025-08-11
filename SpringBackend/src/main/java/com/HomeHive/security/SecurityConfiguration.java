@@ -1,6 +1,5 @@
 package com.HomeHive.security;
 
-
 import java.util.List;
 
 import org.springframework.context.annotation.Bean;
@@ -34,31 +33,44 @@ public class SecurityConfiguration {
     @Bean
     SecurityFilterChain configureSecFilterChain(HttpSecurity http) throws Exception {
         http
-            .cors(withDefaults()) 
-            .csrf(csrf -> csrf.disable()) 
-            .formLogin(form -> form.disable())
-            .authorizeHttpRequests(request -> request
-                .requestMatchers(
-                    "/v*/api-docs/**", 
-                    "/users/auth/**",
-                    "/users/profile",
-                    "/notices/getActive",
-                    "/facilities/all-facilities"
-                ).permitAll()
-                .requestMatchers("/users/all/**", "/users/*/role", "/users/admin/**").hasRole("ADMIN")
-                .requestMatchers("/notices/post-notice", "/notices/remove/**", "/notices/getAll").hasRole("ADMIN")
-                .requestMatchers("/complaints/all-complaints", "/complaints/*/status").hasRole("ADMIN")
-                .requestMatchers("/complaints/raise-complaint", "/complaints/my-complaints").hasRole("RESIDENT")
-                .requestMatchers("/feedback/all-feedback", "/feedback/by-category/**").hasRole("ADMIN")
-                .requestMatchers("/feedback/my-feedback", "/feedback/post-feedback").hasRole("RESIDENT")
-                .requestMatchers("/bookings/all", "/bookings/*/status", "/bookings/pending").hasRole("ADMIN")
-                .requestMatchers("/bookings/add-booking", "/bookings/my-bookings").hasRole("RESIDENT")
-                .requestMatchers("/facilities/add-facilities", "/facilities/**").hasRole("ADMIN")
-                .requestMatchers("/bills/generate", "/bills/all-bills", "/bills/overdue", "/bills/apply-penalties").hasAnyRole("ADMIN", "ACCOUNTANT")
-                .requestMatchers("/bills/my-bills", "/bills/**").hasRole("RESIDENT")
-                .anyRequest().authenticated()
-            )
-            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+                .cors(withDefaults())
+                .csrf(csrf -> csrf.disable())
+                .formLogin(form -> form.disable())
+                .authorizeHttpRequests(request -> request
+                        .requestMatchers(
+                                "/v*/api-docs/**",
+                                "/users/auth/**",
+                                "/users/profile",
+                                "/notices/getActive",
+                                "/facilities/all-facilities")
+                        .permitAll()
+                        .requestMatchers("/users/all").hasAnyRole("ADMIN", "ACCOUNTANT")
+                        .requestMatchers("/users/*/role", "/users/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/notices/post-notice", "/notices/remove/**", "/notices/getAll")
+                        .hasRole("ADMIN")
+                        .requestMatchers("/complaints/all-complaints", "/complaints/*/status").hasRole("ADMIN")
+                        .requestMatchers("/complaints/raise-complaint", "/complaints/my-complaints").hasRole("RESIDENT")
+                        .requestMatchers("/feedback/all-feedback", "/feedback/by-category/**").hasRole("ADMIN")
+                        .requestMatchers("/feedback/my-feedback", "/feedback/post-feedback").hasRole("RESIDENT")
+                        .requestMatchers("/bookings/all", "/bookings/*/status", "/bookings/pending").hasRole("ADMIN")
+                        .requestMatchers("/bookings/add-booking", "/bookings/my-bookings").hasRole("RESIDENT")
+                        .requestMatchers("/facilities/add-facilities", "/facilities/**").hasRole("ADMIN")
+                        // Bills endpoints
+                        .requestMatchers("/bills/generate", "/bills/all-bills", "/bills/overdue",
+                                "/bills/apply-penalties")
+                        .hasAnyRole("ADMIN", "ACCOUNTANT")
+                        .requestMatchers("/bills/my-bills", "/bills/**").hasRole("RESIDENT")
+                        // Payments endpoints
+                        .requestMatchers("/payments/create-order", "/payments/verify", "/payments/my-payments",
+                                "/payments/my-payments/**", "/payments/bill/**")
+                        .hasRole("RESIDENT")
+                        .requestMatchers("/payments/all", "/payments/status/**", "/payments/stats",
+                                "/payments/*/status", "/payments/capture/**", "/payments/refund/**",
+                                "/payments/razorpay/**")
+                        .hasAnyRole("ADMIN", "ACCOUNTANT")
+                        .requestMatchers("/payments/**").hasAnyRole("RESIDENT", "ADMIN", "ACCOUNTANT")
+                        .anyRequest().authenticated())
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
         http.addFilterBefore(jwtCustomFilter, UsernamePasswordAuthenticationFilter.class);
 
@@ -73,9 +85,9 @@ public class SecurityConfiguration {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOrigins(List.of("http://localhost:5173")); 
+        config.setAllowedOrigins(List.of("http://localhost:5173"));
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-        config.setAllowedHeaders(List.of("*")); 
+        config.setAllowedHeaders(List.of("*"));
         config.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
@@ -83,4 +95,3 @@ public class SecurityConfiguration {
         return source;
     }
 }
-

@@ -81,7 +81,45 @@ public class BookingController {
     @GetMapping("/pending")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> getPendingBookings() {
-        List<Booking> bookings = bookingService.getBookingsByStatus(BookingStatus.PENDING);
+        List<Booking> bookings = bookingService.getPendingBookingsForAdmin();
+        return ResponseEntity.ok(bookings);
+    }
+    
+    // New endpoints for enhanced workflow
+    @PostMapping("/{bookingId}/accept")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<?> acceptBookingRequest(@PathVariable Long bookingId, 
+            @RequestParam(required = false) String adminComments) {
+        Booking booking = bookingService.acceptBookingRequest(bookingId, adminComments);
+        return ResponseEntity.ok(booking);
+    }
+    
+    @PostMapping("/{bookingId}/reject")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<?> rejectBookingRequest(@PathVariable Long bookingId, 
+            @RequestParam(required = true) String rejectionReason) {
+        Booking booking = bookingService.rejectBookingRequest(bookingId, rejectionReason);
+        return ResponseEntity.ok(booking);
+    }
+    
+    @GetMapping("/accepted")
+    @PreAuthorize("hasRole('RESIDENT')")
+    public ResponseEntity<?> getAcceptedBookings() {
+        List<Booking> bookings = bookingService.getAcceptedBookingsForResident();
+        return ResponseEntity.ok(bookings);
+    }
+    
+    @GetMapping("/admin/all")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<?> getAllBookingsForAdmin() {
+        List<Booking> bookings = bookingService.getAllBookingsForAdmin();
+        return ResponseEntity.ok(bookings);
+    }
+    
+    @GetMapping("/accountant/with-payments")
+    @PreAuthorize("hasRole('ACCOUNTANT')")
+    public ResponseEntity<?> getBookingsWithPayments() {
+        List<Booking> bookings = bookingService.getBookingsWithPaymentsForAccountant();
         return ResponseEntity.ok(bookings);
     }
 }

@@ -36,51 +36,51 @@ public class UserController {
 	private final AuthenticationManager authenticationManager;
 	private final UserService userService;
 	private final JwtUtils jwtUtils;
-	
+
 	@PostMapping("/auth/signin")
-	public ResponseEntity<?> userSignIn(@RequestBody UserSignInDTO dto){
+	public ResponseEntity<?> userSignIn(@RequestBody UserSignInDTO dto) {
 		// System.out.println("in sign in "+dto);
-		
-		UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(dto.getEmail(), dto.getPassword());
+
+		UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(dto.getEmail(),
+				dto.getPassword());
 		Authentication successAuth = authenticationManager.authenticate(authToken);
-		
+
 		return ResponseEntity.status(HttpStatus.CREATED)
 				.body(new AuthResponse(UserError.SUCCESS_AUTH.getMsg(), jwtUtils.generateJwtToken(successAuth)));
 	}
-	
+
 	// register new residant
 	@PostMapping("/auth/signup")
-	public ResponseEntity<?> userSignUp(@RequestBody UserSignUpDTO dto){
+	public ResponseEntity<?> userSignUp(@RequestBody UserSignUpDTO dto) {
 		// System.out.println("in sign up "+dto);
 		return ResponseEntity.status(HttpStatus.CREATED)
 				.body(userService.registerNewResidant(dto));
 	}
-	
+
 	@GetMapping("/profile")
-	public ResponseEntity<?> getCurrentUser(){
+	public ResponseEntity<?> getCurrentUser() {
 		User currentUser = userService.getCurrentUser();
 		return ResponseEntity.ok(currentUser);
 	}
-	
+
 	@GetMapping("/all")
-	@PreAuthorize("hasRole('ADMIN')")
-	public ResponseEntity<List<User>> getAllUsers(){
-		List<User>users = userService.getAllUsers();
+	@PreAuthorize("hasAnyRole('ADMIN', 'ACCOUNTANT')")
+	public ResponseEntity<List<User>> getAllUsers() {
+		List<User> users = userService.getAllUsers();
 		return ResponseEntity.ok(users);
 	}
-	
+
 	@PutMapping("/{userId}/role")
 	@PreAuthorize("hasRole('ADMIN')")
-	public ResponseEntity<?> grantRole(@PathVariable Long userId, @RequestBody RoleUpdateRequestDTO role)
-	{
-		//role.setRole(role.getRole());
+	public ResponseEntity<?> grantRole(@PathVariable Long userId, @RequestBody RoleUpdateRequestDTO role) {
+		// role.setRole(role.getRole());
 		User user = userService.grantRole(userId, role.getRole());
 		return ResponseEntity.ok(user);
 	}
-	
+
 	@DeleteMapping("/admin/{userId}")
 	@PreAuthorize("hasRole('ADMIN')")
-	public ResponseEntity<?> deactivateUser(@PathVariable Long userId){
+	public ResponseEntity<?> deactivateUser(@PathVariable Long userId) {
 		userService.deactivateUser(userId);
 		return ResponseEntity.ok().build();
 	}

@@ -25,7 +25,7 @@ import lombok.ToString;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString(callSuper = true, exclude = {"resident"})
+@ToString(callSuper = true, exclude = { "resident" })
 public class Payment extends BaseEntity {
 
     @Column(unique = true, nullable = false)
@@ -44,13 +44,26 @@ public class Payment extends BaseEntity {
 
     private String gatewayTransactionId;
 
+    // Razorpay specific fields
+    private String razorpayOrderId;
+
+    private String razorpayPaymentId;
+
+    private String razorpaySignature;
+
     private String failureReason;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "resident_id", nullable = false)
     private User resident;
-    
-    @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "bill_id", nullable = false, unique = true)
+
+    @OneToOne
+    @JoinColumn(name = "bill_id")
+    @JsonIgnore
     private Bill bill;
+
+    @OneToOne
+    @JoinColumn(name = "booking_id")
+    @JsonIgnore
+    private Booking booking;
 }

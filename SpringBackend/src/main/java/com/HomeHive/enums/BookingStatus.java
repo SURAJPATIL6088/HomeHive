@@ -1,5 +1,5 @@
 package com.HomeHive.enums;
 
 public enum BookingStatus {
-    PENDING, CONFIRMED, CANCELLED, COMPLETED
+    PENDING, ACCEPTED, REJECTED, CONFIRMED, CANCELLED, COMPLETED
 }

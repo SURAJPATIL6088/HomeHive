@@ -22,4 +22,21 @@ public interface BookingService {
 	String generateBookingNumber();
 	
 	List<Booking> getBookingsByStatus(BookingStatus status);
+	
+	// New methods for enhanced workflow
+	List<Booking> getAllBookingsForAdmin();
+	
+	List<Booking> getPendingBookingsForAdmin();
+	
+	List<Booking> getAcceptedBookingsForResident();
+	
+	List<Booking> getBookingsWithPaymentsForAccountant();
+	
+	Booking acceptBookingRequest(Long bookingId, String adminComments);
+	
+	Booking rejectBookingRequest(Long bookingId, String rejectionReason);
+	
+	void notifyAdminOfNewBooking(Booking booking);
+	
+	void notifyResidentOfStatusUpdate(Booking booking, String adminComments);
 }
